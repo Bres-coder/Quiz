@@ -1,0 +1,23 @@
+body{
+    background: linear-gradient(45deg, rgb(34, 19, 240), rgb(255, 17, 0));  
+    overflow-y: hidden;
+    overflow-x: hidden;
+    display:inline-block;
+}
+
+#container{
+position: relative;
+height: 800px;
+
+}
+img{
+    position: absolute;
+    margin-top: 50px;
+    justify-content: center center;
+}
+@media (max-width: 600px){
+    img{
+        margin-top: 50px;
+        margin-left: -100px;
+    }
+}
