@@ -220,6 +220,12 @@ section .que_text{
     font-weight: 600;
 }
 
+.que_text{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 section .option_list{
     padding: 20px 0px;
     display: block;   
