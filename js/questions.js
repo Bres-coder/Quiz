@@ -30,14 +30,13 @@ for (i = 0; i < indices.length; i++) {
   contador += 3;
 }
 contador = 0;
-allOptions.sort();
+
 console.log(allOptions);
 const questions = [];
 for (i = 0; i < indices.length; i++) {
 
   questions[i] = {
     numb: countryCode[indices[i]],
-    /*question: "https://countryflagsapi.com/png/",*/
     answer: countryName[indices[i]],
     options: [
       allOptions[contador],
@@ -48,5 +47,3 @@ for (i = 0; i < indices.length; i++) {
   }
   contador += 4;
 }
-
-
