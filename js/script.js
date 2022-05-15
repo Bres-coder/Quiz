@@ -1,7 +1,6 @@
 //selecting all required elements
 const start_btn = document.querySelector(".start_btn button");
 const info_box = document.querySelector(".info_box");
-const exit_btn = info_box.querySelector(".buttons .quit");
 const continue_btn = info_box.querySelector(".buttons .restart");
 const quiz_box = document.querySelector(".quiz_box");
 const result_box = document.querySelector(".result_box");
@@ -15,10 +14,7 @@ start_btn.onclick = ()=>{
     info_box.classList.add("activeInfo"); //show info box
 }
 
-// if exitQuiz button clicked
-exit_btn.onclick = ()=>{
-    info_box.classList.remove("activeInfo"); //hide info box
-}
+
 
 // if continueQuiz button clicked
 continue_btn.onclick = ()=>{
@@ -91,15 +87,18 @@ next_btn.onclick = ()=>{
 // getting questions and options from array
 function showQuetions(index){
     const que_text = document.querySelector(".que_text");
-
+    var option_tag = [];
     //creating a new span and div tag for question and option and passing the value using array index
     let que_tag = '<img src="https://countryflagsapi.com/png/'+questions[index].numb+'">';
-    let option_tag = '<div class="option"><span>'+ questions[index].options[0] +'</span></div>'
-    + '<div class="option"><span>'+ questions[index].options[1] +'</span></div>'
-    + '<div class="option"><span>'+ questions[index].options[2] +'</span></div>'
-    + '<div class="option"><span>'+ questions[index].options[3] +'</span></div>';
+    option_tag [0] = '<div class="option"><span>'+ questions[index].options[0] +'</span></div>';
+    option_tag [1] = '<div class="option"><span>'+ questions[index].options[1] +'</span></div>';
+    option_tag [2] = '<div class="option"><span>'+ questions[index].options[2] +'</span></div>';
+    option_tag [3] = '<div class="option"><span>'+ questions[index].options[3] +'</span></div>';
+    
+    option_tag.sort();
+
     que_text.innerHTML = que_tag; //adding new span tag inside que_tag
-    option_list.innerHTML = option_tag; //adding new div tag inside option_tag
+    option_list.innerHTML = option_tag [0] + option_tag [1] + option_tag [2] + option_tag [3]; //adding new div tag inside option_tag
     
     const option = option_list.querySelectorAll(".option");
 
@@ -107,6 +106,7 @@ function showQuetions(index){
     for(i=0; i < option.length; i++){
         option[i].setAttribute("onclick", "optionSelected(this)");
     }
+    
 }
 // creating the new div tags which for icons
 let tickIconTag = '<div class="icon tick"><i class="fas fa-check"></i></div>';
@@ -150,18 +150,25 @@ function showResult(){
     quiz_box.classList.remove("activeQuiz"); //hide quiz box
     result_box.classList.add("activeResult"); //show result box
     const scoreText = result_box.querySelector(".score_text");
-    if (userScore > 3){ // if user scored more than 3
+    const scoreIcon = result_box.querySelector(".icon");
+    if (userScore >= 3){ // if user scored more than 3
         //creating a new span tag and passing the user score number and total question number
         let scoreTag = '<span>and congrats! 🎉, You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
         scoreText.innerHTML = scoreTag;  //adding new span tag inside score_Text
+        let starsRaking = '<i class="fas fa-crown" style="color: #F806CCbe"></i> <i class="fas fa-crown" style="color: #F806CCbe"></i> <i class="fas fa-crown" style="color: #F806CCbe"></i>';
+        scoreIcon.innerHTML = starsRaking;
     }
     else if(userScore > 1){ // if user scored more than 1
         let scoreTag = '<span>and nice 😎, You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
         scoreText.innerHTML = scoreTag;
+        let starsRaking = '<i class="fas fa-crown" style="color: #A91079be"></i><i class="fas fa-crown" style="color: #A91079be"></i>';
+        scoreIcon.innerHTML = starsRaking;
     }
     else{ // if user scored less than 1
-        let scoreTag = '<span>and sorry 😐, You got only <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
+        let scoreTag = '<span>But... you got only <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p> </span>';
         scoreText.innerHTML = scoreTag;
+        let starsRaking = '<i class="fas fa-crown" style="color: #570A57be">';
+        scoreIcon.innerHTML = starsRaking;
     }
 }
 
