@@ -168,22 +168,22 @@ function showResult(){
     const scoreText = result_box.querySelector(".score_text");
     const scoreIcon = result_box.querySelector(".icon");
     const ranking = result_box.querySelector(".ranking");
-    if (userScore >= 3){ // if user scored more than 3
+    if (userScore >= 7){ // if user scored more or equal 7
         //creating a new span tag and passing the user score number and total question number
         let scoreTag = '<span>and congrats! 🎉, You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
         scoreText.innerHTML = scoreTag;  //adding new span tag inside score_Text
         let starsRaking = '<i class="fas fa-crown" style="color: #F806CCbe"></i> <i class="fas fa-crown" style="color: #F806CCbe"></i> <i class="fas fa-crown" style="color: #F806CCbe"></i>';
         scoreIcon.innerHTML = starsRaking;
-        let divRanking = '<div>You deserve to be in our score ranking! Please write your name and press Enter</div><div class="newtodo"><div class="newtodo-input"><form onsubmit="addItem(event)"><input id="todo-input" type="text" placeholder="Your Name" /></form></div></div>'
+        let divRanking = '<div>You deserve to be in our score ranking!<br>Please write your name and press Enter</div><div class="newtodo"><div class="newtodo-input"><form onsubmit="addItem(event)"><input id="todo-input" type="text" placeholder="Your Name" /></form></div></div>'
         ranking.innerHTML = divRanking;
     }
-    else if(userScore > 1){ // if user scored more than 1
+    else if(userScore > 4){ // if user scored more than 1
         let scoreTag = '<span>and nice 😎, You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
         scoreText.innerHTML = scoreTag;
         let starsRaking = '<i class="fas fa-crown" style="color: #A91079be"></i><i class="fas fa-crown" style="color: #A91079be"></i>';
         scoreIcon.innerHTML = starsRaking;
     }
-    else{ // if user scored less than 1
+    else{ // if user scored less than 5
         let scoreTag = '<span>But... you got only <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p> </span>';
         scoreText.innerHTML = scoreTag;
         let starsRaking = '<i class="fas fa-crown" style="color: #570A57be">';
@@ -248,7 +248,7 @@ function addItem(event) {
 }
 
 function getItems(){
-    db.collection("quiz-bestscore").onSnapshot((snapshot) => {
+    db.collection("quiz-bestscore").orderBy("status", "desc").onSnapshot((snapshot) => {
         let items = [];
         snapshot.docs.forEach((doc)=>{
             items.push({
@@ -257,6 +257,7 @@ function getItems(){
             })
         })
         generateItems(items);
+        console.log(items);
     })
 }
 
