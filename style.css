@@ -435,6 +435,10 @@ footer button.show {
 .result_box .complete_text {
     font-size: 20px;
     font-weight: 500;
+    display: flex;
+}
+.score_text{
+    text-align: justify;
 }
 
 .result_box .score_text span {
@@ -447,11 +451,20 @@ footer button.show {
 .result_box .score_text span p {
     padding: 0 4px;
     font-weight: 600;
+    
 }
 
 .ranking {
     font-size: 18px;
-    display: flex
+    text-align: justify;
+}
+
+.ranking input{
+    width: 50%;
+    font-size: 1em;
+    margin-top: 10px;
+    border: 2px solid #eb1552;
+    margin-left: 25%;
 }
 
 .result_box .buttons {
