@@ -1,6 +1,8 @@
 //selecting all required elements
 const start_btn = document.querySelector(".start_btn button");
+const ranking_btn = document.querySelector(".ranking_btn");
 const info_box = document.querySelector(".info_box");
+const ranking_box = document.querySelector(".ranking_box");
 const continue_btn = info_box.querySelector(".buttons .restart");
 const quiz_box = document.querySelector(".quiz_box");
 const result_box = document.querySelector(".result_box");
@@ -14,11 +16,14 @@ start_btn.onclick = ()=>{
     info_box.classList.add("activeInfo"); //show info box
 }
 
-
+ranking_btn.onclick = () =>{
+    ranking_box.classList.add("activeRaking");
+}
 
 // if continueQuiz button clicked
 continue_btn.onclick = ()=>{
     info_box.classList.remove("activeInfo"); //hide info box
+    ranking_box.classList.remove("activeRanking"); //hide ranking box
     quiz_box.classList.add("activeQuiz"); //show quiz box
     showQuetions(0); //calling showQestions function
     queCounter(1); //passing 1 parameter to queCounter
@@ -148,15 +153,19 @@ function optionSelected(answer){
 function showResult(){
     info_box.classList.remove("activeInfo"); //hide info box
     quiz_box.classList.remove("activeQuiz"); //hide quiz box
+    ranking_box.classList.remove("activeRanking"); //hide ranking box
     result_box.classList.add("activeResult"); //show result box
     const scoreText = result_box.querySelector(".score_text");
     const scoreIcon = result_box.querySelector(".icon");
+    const ranking = result_box.querySelector(".ranking");
     if (userScore >= 3){ // if user scored more than 3
         //creating a new span tag and passing the user score number and total question number
         let scoreTag = '<span>and congrats! 🎉, You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
         scoreText.innerHTML = scoreTag;  //adding new span tag inside score_Text
         let starsRaking = '<i class="fas fa-crown" style="color: #F806CCbe"></i> <i class="fas fa-crown" style="color: #F806CCbe"></i> <i class="fas fa-crown" style="color: #F806CCbe"></i>';
         scoreIcon.innerHTML = starsRaking;
+        let divRanking = '<div>You deserve to be in our score ranking! Please write your name and press Enter</div><div class="newtodo"><div class="newtodo-input"><form onsubmit="addItem(event)"><input id="todo-input" type="text" placeholder="Your Name" /></form></div></div>'
+        ranking.innerHTML = divRanking;
     }
     else if(userScore > 1){ // if user scored more than 1
         let scoreTag = '<span>and nice 😎, You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
@@ -217,3 +226,15 @@ function queCounter(index){
     let totalQueCounTag = '<span><p>'+ index +'</p> of <p>'+ questions.length +'</p> Questions</span>';
     bottom_ques_counter.innerHTML = totalQueCounTag;  //adding new span tag inside bottom_ques_counter
 }
+
+function addItem(event) {
+    event.preventDefault();
+    let text = document.getElementById("todo-input");
+    db.collection("quiz-bestscore").add({
+        text: text.value,
+        status: userScore
+    })
+    text.value = "";
+}
+
+
