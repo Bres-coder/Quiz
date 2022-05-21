@@ -1,9 +1,13 @@
 //selecting all required elements
 const start_btn = document.querySelector(".start_btn button");
-const ranking_btn = document.querySelector(".ranking_btn");
+const ranking_btn = document.querySelector(".ranking_btn button");
+
 const info_box = document.querySelector(".info_box");
 const ranking_box = document.querySelector(".ranking_box");
+
 const continue_btn = info_box.querySelector(".buttons .restart");
+const back_btn = ranking_box.querySelector(".buttons .restart");
+
 const quiz_box = document.querySelector(".quiz_box");
 const result_box = document.querySelector(".result_box");
 const option_list = document.querySelector(".option_list");
@@ -11,24 +15,30 @@ const time_line = document.querySelector("header .time_line");
 const timeText = document.querySelector(".timer .time_left_txt");
 const timeCount = document.querySelector(".timer .timer_sec");
 
+
+
 // if startQuiz button clicked
 start_btn.onclick = ()=>{
     info_box.classList.add("activeInfo"); //show info box
 }
 
-ranking_btn.onclick = () =>{
-    ranking_box.classList.add("activeRaking");
+ranking_btn.onclick = ()=>{
+    ranking_box.classList.add("activeRanking"); //show ranking box
 }
 
 // if continueQuiz button clicked
 continue_btn.onclick = ()=>{
     info_box.classList.remove("activeInfo"); //hide info box
-    ranking_box.classList.remove("activeRanking"); //hide ranking box
+   // ranking_box.classList.remove("activeRanking"); hide ranking box
     quiz_box.classList.add("activeQuiz"); //show quiz box
     showQuetions(0); //calling showQestions function
     queCounter(1); //passing 1 parameter to queCounter
     startTimer(15); //calling startTimer function
     startTimerLine(0); //calling startTimerLine function
+}
+
+back_btn.onclick = ()=>{
+    ranking_box.classList.remove("activeRanking");
 }
 
 let timeValue =  15;
@@ -237,4 +247,36 @@ function addItem(event) {
     text.value = "";
 }
 
+function getItems(){
+    db.collection("quiz-bestscore").onSnapshot((snapshot) => {
+        let items = [];
+        snapshot.docs.forEach((doc)=>{
+            items.push({
+                id: doc.id,
+                ...doc.data()
+            })
+        })
+        generateItems(items);
+    })
+}
 
+
+function generateItems(items){
+
+    let itemsHTML = "";
+    items.forEach((item)=>{
+        itemsHTML += `
+        <tr>
+            <td>
+                ${item.text}
+            </td>
+            <td class="score">
+                ${item.status}
+            </td>
+        </tr>
+        `
+    })
+    document.querySelector(".todo-items").innerHTML = `<thead><tr class="title_tr"><th>Name</th><th class="score">Score</th></tr></thead>`+ itemsHTML;
+}
+
+getItems();
