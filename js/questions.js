@@ -15,7 +15,7 @@ const indices = [];
 const optionsQ = [];
 const allOptions = [];
 const sortedOptions = [];
-for (var i = 0; i < 3; i++) {
+for (var i = 0; i < 10; i++) {
   indices.push(getRandomIntInclusive(1, lengthArray));
   optionsQ.push(getRandomIntInclusive(1, lengthArray));
   optionsQ.push(getRandomIntInclusive(1, lengthArray));
